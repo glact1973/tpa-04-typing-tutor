@@ -36,9 +36,9 @@ class TypingTutorGame {
     // 追加ここから
     // 例文と同様に、入力文字を配列に格納する
     this.inputText.push(key);
-    //入力済文字数のindex(currentStrokeCount)が例文(targetText)の文字数と等しい場合、スコア表示を行う
+    // 入力済文字数のindex(currentStrokeCount)が例文(targetText)の文字数と等しい場合、スコア表示を行う
     if (this.currentStrokeCount === this.targetText.length - 1 ) {
-      //1文字ずつ例文と一致しているか判定し、一致していれば一致した文字数を1つ足す
+      // 1文字ずつ例文と一致しているか判定し、一致していれば一致した文字数を1つ足す
       for (let i = 0; i <= this.currentStrokeCount; i++) {
         if (this.inputText[i] === this.targetText[i]) this.accurateInputNum++;
       }
