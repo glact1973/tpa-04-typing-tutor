@@ -27,8 +27,10 @@ class TypingTutorGame {
   }
 
   handleKeyStroke(key) {
-    // テスト用の例文として固有値を設定するための固定値
-    // this.targetText = ['a','b','c']
+    console.log('handleKeyStroke')
+    // [テスト用] テスト用の例文として固有値を設定するための固定値。後で消すこと
+    this.targetText = ['a','b','c']
+    // [/テスト用] ここまで
     if (!this.isRoundInProgress) return; 
     this.currentStrokeCount += 1; 
     const targetChar = this.targetText[this.currentStrokeCount]; 
@@ -45,7 +47,9 @@ class TypingTutorGame {
       // スコアを計算する
       this.totalScore = Math.floor((this.accurateInputNum / (this.currentStrokeCount + 1))*100);
       // スコアを表示する
-      console.log(`SCORE: `+ this.totalScore);
+      const score = document.createElement('h1');
+      score.innerHTML = `SCORE: ${this.totalScore}`;
+      document.querySelector('#score').appendChild(score);  
     }
     // 追加ここまで
   }
