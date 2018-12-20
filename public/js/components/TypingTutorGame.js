@@ -6,17 +6,18 @@ class TypingTutorGame {
     this.isRoundInProgress = false;
     this.currentStrokeCount = -1;
     this.targetText = null;
+    this.startBtnText = 'Start typing!';
     // 入力文字を格納する
     this.inputText = [];
     this.accurateInputNum = 0;
     this.totalScore = 0;
-    // 追加ここまで
   }
 
   init() {
     this.view = new TypingTutorView();
     this.view.registerStartRoundCallback(this.startRound.bind(this));
     this.view.registerHandleKeystrokeCallback(this.handleKeyStroke.bind(this));
+    this.view.registerCalculateScoreCallback(this.calculateScore.bind(this));
     this.view.initDOMAndListeners();
   }
 
@@ -27,31 +28,31 @@ class TypingTutorGame {
   }
 
   handleKeyStroke(key) {
-    console.log('handleKeyStroke')
-    // [テスト用] テスト用の例文として固有値を設定するための固定値。後で消すこと
-    this.targetText = ['a','b','c']
-    // [/テスト用] ここまで
-    if (!this.isRoundInProgress) return; 
-    this.currentStrokeCount += 1; 
-    const targetChar = this.targetText[this.currentStrokeCount]; 
-    this.view.renderKeystroke(key, targetChar);
-    // 追加ここから
-    // 例文と同様に、入力文字を配列に格納する
-    this.inputText.push(key);
-    // 入力済文字数のindex(currentStrokeCount)が例文(targetText)の文字数と等しい場合、スコア表示を行う
-    if (this.currentStrokeCount === this.targetText.length - 1 ) {
-      // 1文字ずつ例文と一致しているか判定し、一致していれば一致した文字数を1つ足す
-      for (let i = 0; i <= this.currentStrokeCount; i++) {
-        if (this.inputText[i] === this.targetText[i]) this.accurateInputNum++;
-      }
-      // スコアを計算する
-      this.totalScore = Math.floor((this.accurateInputNum / (this.currentStrokeCount + 1))*100);
-      // スコアを表示する
-      const score = document.createElement('h1');
-      score.innerHTML = `SCORE: ${this.totalScore}`;
-      document.querySelector('#score').appendChild(score);  
+    // for this.targetText = ['a', 'b', 'c'];
+    if (!this.isRoundInProgress) return;
+    this.currentStrokeCount += 1;
+    const targetChar = this.targetText[this.currentStrokeCount];
+    // 最終文字まで入力済なら、それ以上入力しても画面に表示させない
+    if (this.currentStrokeCount <= this.targetText.length - 1) {
+      this.view.renderKeystroke(key, targetChar);
     }
-    // 追加ここまで
+    // 例文同様に入力した文字を配列に格納し、calculateScoreでスコア計算に利用する
+    this.inputText.push(key);
+  }
+
+  calculateScore() {
+    // スコアを計算して良いか、入力済文字数と例文文字数で比較し、文末まで行ってなければ戻る
+    if (this.currentStrokeCount !== this.targetText.length - 1) return;
+    // 1文字ずつ例文と一致しているか判定し、一致していれば一致した文字数を1つ足す
+    for (let i = 0; i <= this.currentStrokeCount; i += 1) {
+      if (this.inputText[i] === this.targetText[i]) this.accurateInputNum += 1;
+    }
+    // スコアを計算する
+    this.totalScore = Math.floor((this.accurateInputNum / (this.currentStrokeCount + 1)) * 100);
+    // スコアを表示する
+    this.view.renderScore(this.totalScore);
+    // ボタンを初期表示に戻す
+    this.view.renderStartBtn(this.startBtnText);
   }
 
   initTargetText() {
