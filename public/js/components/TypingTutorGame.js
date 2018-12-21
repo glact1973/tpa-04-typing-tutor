@@ -28,7 +28,7 @@ class TypingTutorGame {
   }
 
   handleKeyStroke(key) {
-    // [for test] this.targetText = ['a', 'b', 'c'];
+    // [for test] this.targetText = ['a', 'b', 'c', 'd', 'e'];
     if (!this.isRoundInProgress) return;
     this.currentStrokeCount += 1;
     const targetChar = this.targetText[this.currentStrokeCount];
@@ -41,6 +41,7 @@ class TypingTutorGame {
   }
 
   calculateScore() {
+    console.log(this.accurateInputNum)
     // スコアを計算して良いか、入力済文字数と例文文字数で比較し、文末まで行ってなければ戻る
     if (this.currentStrokeCount !== this.targetText.length - 1) return;
     // 1文字ずつ例文と一致しているか判定し、一致していれば一致した文字数を1つ足す
@@ -48,7 +49,14 @@ class TypingTutorGame {
       if (this.inputText[i] === this.targetText[i]) this.accurateInputNum += 1;
     }
     // スコアを計算する
+    console.log('this.currentStrokeCount')
+    console.log(this.currentStrokeCount)
+    console.log('this.accurateInputNum')
+    console.log(this.accurateInputNum)
+    console.log('this.totalScore')
+    console.log(this.totalScore)
     this.totalScore = Math.floor((this.accurateInputNum / (this.currentStrokeCount + 1)) * 100);
+    console.log(this.totalScore)
     // スコアを表示する
     this.view.renderScore(this.totalScore);
     // スコア表示後、変数を初期化する
@@ -60,6 +68,7 @@ class TypingTutorGame {
   initVar() {
     this.totalScore = 0;
     this.accurateInputNum = 0;
+    this.inputText = []
   }
 
   initTargetText() {
