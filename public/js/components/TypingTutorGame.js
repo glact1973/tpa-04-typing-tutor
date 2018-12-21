@@ -28,7 +28,7 @@ class TypingTutorGame {
   }
 
   handleKeyStroke(key) {
-    this.targetText = ['a', 'b', 'c'];
+    // [for test] this.targetText = ['a', 'b', 'c'];
     if (!this.isRoundInProgress) return;
     this.currentStrokeCount += 1;
     const targetChar = this.targetText[this.currentStrokeCount];
@@ -60,7 +60,6 @@ class TypingTutorGame {
   initVar() {
     this.totalScore = 0;
     this.accurateInputNum = 0;
-    this.currentStrokeCount = -1;
   }
 
   initTargetText() {
