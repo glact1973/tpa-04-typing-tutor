@@ -28,7 +28,7 @@ class TypingTutorGame {
   }
 
   handleKeyStroke(key) {
-    // for this.targetText = ['a', 'b', 'c'];
+    this.targetText = ['a', 'b', 'c'];
     if (!this.isRoundInProgress) return;
     this.currentStrokeCount += 1;
     const targetChar = this.targetText[this.currentStrokeCount];
@@ -51,8 +51,16 @@ class TypingTutorGame {
     this.totalScore = Math.floor((this.accurateInputNum / (this.currentStrokeCount + 1)) * 100);
     // スコアを表示する
     this.view.renderScore(this.totalScore);
+    // スコア表示後、変数を初期化する
+    this.initVar();
     // ボタンを初期表示に戻す
     this.view.renderStartBtn(this.startBtnText);
+  }
+
+  initVar() {
+    this.totalScore = 0;
+    this.accurateInputNum = 0;
+    this.currentStrokeCount = -1;
   }
 
   initTargetText() {
